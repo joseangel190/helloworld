@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: helloworld-ingress
+  namespace: helloworld
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+  - host: app.joseguerrero.pro
+    http:
+#  - http:
+      paths:
+      - path: /helloworld
+        pathType: Prefix
+        backend:
+          service:
+            name: helloworld-service
+            port:
+              number: 8080
