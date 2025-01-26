@@ -57,6 +57,7 @@ jobs:
           kubelogin convert-kubeconfig -l spn --client-id ${{ secrets.AZURE_CLIENT_ID }} --client-secret ${{ secrets.AZURE_CLIENT_SECRET }} --tenant-id ${{ secrets.AZURE_TENANT_ID }}
       - name: Deploy to AKS
         run: |
+          set +e
           kubectl delete -f ${{ github.workspace }}/k8s/ingress-ssl.yml
           kubectl delete -f ${{ github.workspace }}/k8s/issuer.yml
           kubectl delete -f ${{ github.workspace }}/k8s/service.yml
@@ -65,3 +66,4 @@ jobs:
           kubectl apply -f ${{ github.workspace }}/k8s/issuer.yml
           kubectl apply -f ${{ github.workspace }}/k8s/service.yml
           kubectl apply -f ${{ github.workspace }}/k8s/deployment.yml
+          set +e
