@@ -2,9 +2,6 @@ name: CI/CD App
 
 on:
   workflow_dispatch:
-  push:
-    branches: 
-     - main
 
 env:
   RESOURCE_GROUP: ${{ vars.RESOURCE_GROUP }}
@@ -42,10 +39,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Replace specific variables in YAML manifest
-        run: |
-          sed -i "s|$DOMAIN|${{ vars.DOMAIN }}|g" ${{ github.workspace }}/k8s/ingress-ssl.yml
-          sed -i "s|$EMAIL|${{ vars.EMAIL }}|g" ${{ github.workspace }}/k8s/issuer.yml
+  #    - name: Replace specific variables in YAML manifest
+  #      run: |
+  #        sed -i "s|$DOMAIN|${{ vars.DOMAIN }}|g" ${{ github.workspace }}/k8s/ingress-ssl.yml
+  #        sed -i "s|$EMAIL|${{ vars.EMAIL }}|g" ${{ github.workspace }}/k8s/issuer.yml
       - uses: azure/setup-kubectl@v4
       - uses: azure/login@v2
         with:
