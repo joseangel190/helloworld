@@ -60,11 +60,11 @@ jobs:
       - name: Deploy to AKS
         run: |
           set +e
-          kubectl delete -f ${{ github.workspace }}/k8s/ingress.yml
+          kubectl delete -f ${{ github.workspace }}/k8s/ingress-ssl.yml
           kubectl delete -f ${{ github.workspace }}/k8s/issuer.yml
           kubectl delete -f ${{ github.workspace }}/k8s/service.yml
           kubectl delete -f ${{ github.workspace }}/k8s/deployment.yml
-          kubectl apply -f ${{ github.workspace }}/k8s/ingress.yml
+          kubectl apply -f ${{ github.workspace }}/k8s/ingress-ssl.yml
           kubectl apply -f ${{ github.workspace }}/k8s/issuer.yml
           kubectl apply -f ${{ github.workspace }}/k8s/service.yml
           kubectl apply -f ${{ github.workspace }}/k8s/deployment.yml
