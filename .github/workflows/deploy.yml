@@ -2,10 +2,12 @@ name: CI/CD App
 
 on:
   workflow_dispatch:
-  push:
-    branches: 
-     - main
 
+env:
+  RESOURCE_GROUP: ${{ vars.RESOURCE_GROUP }}
+  CLUSTER_NAME: ${{ vars.CLUSTER_NAME }}
+  DOMAIN: ${{ vars.DOMAIN }}
+  
 jobs:
   build:
     runs-on: 'ubuntu-latest'
@@ -15,12 +17,10 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '21'
+          java-version: '17'
           cache: maven
       - name: Build with Maven
-        run: mvn clean install 
-      - name: Package
-        run: mvn package
+        run: mvn clean install package
       - name: Log in to Azure Container Registry
         uses: azure/docker-login@v2
         with:
@@ -33,4 +33,24 @@ jobs:
 
       - name: Push Docker image
         run: docker push ${{ secrets.ACR_SERVER }}/${{ github.event.repository.name }}:${{ github.sha }} && docker push ${{ secrets.ACR_SERVER }}/${{ github.event.repository.name }}:latest
-      
+
+  deploy:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - uses: azure/setup-kubectl@v4
+      - uses: azure/login@v2
+        with:
+          creds: '{"clientId":"${{ secrets.AZURE_CLIENT_ID }}","clientSecret":"${{ secrets.AZURE_CLIENT_SECRET }}","subscriptionId":"${{ secrets.AZURE_SUBSCRIPTION_ID }}","tenantId":"${{ secrets.AZURE_TENANT_ID }}"}'
+      - name: Set up Kubernetes tools
+        run: |
+          az aks get-credentials --resource-group ${{ inputs.resource-group }} --name ${{ inputs.cluster-name }}
+          kubectl config view
+      - uses: azure/use-kubelogin@v1
+        with:
+          kubelogin-version: 'v0.0.24'
+      - name: Use kubelogin with spn method
+        run: |
+          kubelogin convert-kubeconfig -l spn --client-id ${{ secrets.AZURE_CLIENT_ID }} --client-secret ${{ secrets.AZURE_CLIENT_SECRET }} --tenant-id ${{ secrets.AZURE_TENANT_ID }}
