@@ -10,7 +10,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: $DOMAIN
+  - host: aap.$DOMAIN
     http:
       paths:
       - path: /helloworld
@@ -22,5 +22,5 @@ spec:
               number: 8080
   tls:
   - hosts:
-    - $DOMAIN
+    - app.$DOMAIN
     secretName: helloworld-secret
