@@ -7,7 +7,7 @@ env:
   RESOURCE_GROUP: ${{ vars.RESOURCE_GROUP }}
   CLUSTER_NAME: ${{ vars.CLUSTER_NAME }}
   DOMAIN: ${{ vars.DOMAIN }}
-  EMAIL: ${{ vars.EMAIL }}
+  EMAIL: app.joseguerrero.pro
   
 jobs:
   build:
