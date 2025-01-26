@@ -22,5 +22,5 @@ spec:
               number: 8080
   tls:
   - hosts:
-    - app.joseguerrero.pro
+    - $DOMAIN
     secretName: helloworld-secret
