@@ -39,10 +39,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-  #    - name: Replace specific variables in YAML manifest
-  #      run: |
-  #        sed -i "s|$DOMAIN|${{ vars.DOMAIN }}|g" ${{ github.workspace }}/k8s/ingress-ssl.yml
-  #        sed -i "s|$EMAIL|${{ vars.EMAIL }}|g" ${{ github.workspace }}/k8s/issuer.yml
       - uses: azure/setup-kubectl@v4
       - uses: azure/login@v2
         with:
@@ -60,12 +56,8 @@ jobs:
       - name: Deploy to AKS
         run: |
           set +e
-          kubectl delete -f ${{ github.workspace }}/k8s/ingress-ssl.yml
-          kubectl delete -f ${{ github.workspace }}/k8s/issuer.yml
-          kubectl delete -f ${{ github.workspace }}/k8s/service.yml
-          kubectl delete -f ${{ github.workspace }}/k8s/deployment.yml
-          kubectl apply -f ${{ github.workspace }}/k8s/ingress-ssl.yml
-          kubectl apply -f ${{ github.workspace }}/k8s/issuer.yml
-          kubectl apply -f ${{ github.workspace }}/k8s/service.yml
-          kubectl apply -f ${{ github.workspace }}/k8s/deployment.yml
+          kubectl delete -f ${{ github.workspace }}/k8s/aks-main.yml
+          kubectl apply -f ${{ github.workspace }}/k8s/aks-min.yml
           set +e
+      - name: Get Kubernetes resources
+        run: sleep 120 && kubectl get deployment,service,ingress,hpa,issuer -n helloworld
