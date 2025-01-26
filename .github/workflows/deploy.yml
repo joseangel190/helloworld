@@ -2,12 +2,15 @@ name: CI/CD App
 
 on:
   workflow_dispatch:
+  push:
+    branches: 
+     - main
 
 env:
   RESOURCE_GROUP: ${{ vars.RESOURCE_GROUP }}
   CLUSTER_NAME: ${{ vars.CLUSTER_NAME }}
   DOMAIN: ${{ vars.DOMAIN }}
-  EMAIL: app.joseguerrero.pro
+  EMAIL: ${{ vars.EMAIL }}
   
 jobs:
   build:
