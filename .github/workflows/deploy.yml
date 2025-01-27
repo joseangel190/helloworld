@@ -60,4 +60,6 @@ jobs:
           kubectl apply -f ${{ github.workspace }}/k8s/aks-main.yml
           set +e
       - name: Get Kubernetes resources
-        run: sleep 120 && kubectl get deployment,service,ingress,hpa,issuer -n helloworld
+        run: |
+          sleep 120 
+          echo "" && echo "===========> POD" && echo "" && kubectl get pod -n helloworld && \ echo "" && echo "===========> DEPLOYMENT" && echo "" && kubectl get deployment -n helloworld && \ echo "" && echo "===========> SERVICE" && echo "" && kubectl get service -n helloworld && \ echo "" && echo "===========> INGRESS" && echo "" && kubectl get ingress -n helloworld && \ echo "" && echo "===========> HPA" && echo "" && kubectl get hpa -n helloworld
