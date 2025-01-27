@@ -62,5 +62,9 @@ jobs:
       - name: Get Kubernetes resources
         run: |
           sleep 120 
-          echo "" && echo "===========> POD" && echo "" && kubectl get pod -n helloworld && \ echo "" && echo "===========> DEPLOYMENT" && echo "" && kubectl get deployment -n helloworld && \ echo "" && echo "===========> SERVICE" && echo "" && kubectl get service -n helloworld && \ echo "" && echo "===========> INGRESS" && echo "" && kubectl get ingress -n helloworld && \ echo "" && echo "===========> HPA" && echo "" && kubectl get hpa -n helloworld
+          echo "" && echo "===========> POD" && echo "" && kubectl get pod -n helloworld && \
+          echo "" && echo "===========> DEPLOYMENT" && echo "" && kubectl get deployment -n helloworld && \
+          echo "" && echo "===========> SERVICE" && echo "" && kubectl get service -n helloworld && \
+          echo "" && echo "===========> INGRESS" && echo "" && kubectl get ingress -n helloworld && \
+          echo "" && echo "===========> HPA" && echo "" && kubectl get hpa -n helloworld
         shell: bash
